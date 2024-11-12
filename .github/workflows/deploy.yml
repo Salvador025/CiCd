@@ -29,8 +29,9 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-        name: angular-build
-        path: dist/[actual-project-name]  # Replace with the actual folder name in the dist directory
+          name: angular-build
+          path: dist/[actual-project-name]  # Replace with the actual folder name in the dist directory
+
 
 
   docker:
