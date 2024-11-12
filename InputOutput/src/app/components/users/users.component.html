@@ -1,0 +1,34 @@
+<div class="container">
+    <header class="header">
+      <h1>Input/Output</h1>
+    </header>
+    
+    <main class="main-content">
+      <section class="users-list">
+        <h2>Users</h2>
+        <div>
+          <button (click)="IncreaseCounter()">Click me</button>
+          <button (click)="ChangeButton()">Cambiar Texto del Otro Botón</button>
+          <button>{{ buttonText }}</button>
+        </div>
+        <ul>
+          @for (usuario of ListaDeUsuarios; track $index) {
+          <app-users-list
+            [Usuario]="usuario"
+            [BooleanSeleccion]="usuario.id === UsuarioSeleccionado?.id"
+            (UsuarioSeleccionado)="GetUserDetails($event)"
+          >
+          </app-users-list>
+          }
+        </ul>
+      </section>
+      
+      
+      <section class="user-details-section">
+        <app-user-details [Usuario]="UsuarioSeleccionado!"
+        (BorrarUsuario)="BorrarUsuario()">
+        >
+        </app-user-details> 
+      </section>
+    </main>
+  </div>

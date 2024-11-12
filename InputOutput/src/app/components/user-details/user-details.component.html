@@ -1,0 +1,21 @@
+<div>
+
+    @if (Usuario) {
+
+    <h2>Detalles del Usuario:</h2>
+    <p>Nombre: {{ Usuario.name }}</p>
+    <p>Username: {{ Usuario.username }}</p>
+    <p>Email: {{ Usuario.email }}</p>
+    <p>Teléfono: {{ Usuario.phone }}</p>
+    <p>Website: {{ Usuario.website }}</p>
+    <p>Compañía: {{ Usuario.company.name }}, {{Usuario.company.catchPhrase}}</p>
+    <p>Dirección: {{ Usuario.address.street }}, {{ Usuario.address.suite }}, {{ Usuario.address.city }}, {{ Usuario.address.zipcode }}</p>
+
+    <button (click)="EraseUser()">
+        <h3>Clear User</h3>
+    </button>
+    }@else {
+    <h2>Selecciona un usuario para ver sus detalles</h2>
+    }   
+  </div>
+  
