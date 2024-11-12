@@ -58,8 +58,7 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build -t angular-app-image .
-          VERSION_TAG="1.0.${{ github.run_id }}-${{ github.ref_name }}"
-          DOCKER_IMAGE="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:$VERSION_TAG"
+          DOCKER_IMAGE="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.run_id }}"
           docker tag angular-app-image:latest $DOCKER_IMAGE
 
       - name: Push Docker image to ECR
