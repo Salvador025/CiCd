@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: angular-build
-          path: dist/[CiCd]  # Replace with the actual folder name in the dist directory
+          path: dist/  # Replace with the actual folder name in the dist directory
 
 
 
