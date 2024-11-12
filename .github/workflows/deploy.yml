@@ -11,32 +11,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          go-version: '1.x'
+          node-version: '16'  # Adjust if needed
 
       - name: Install dependencies
-        run: |
-          cd cmd
-          go mod tidy
+        run: npm install
 
-      - name: Build application
-        run: |
-          cd cmd
-          go build -o my-app
+      - name: Build Angular application
+        run: npm run build --prod
         env:
-          CGO_ENABLED: 0
-          GOOS: linux
-          GOARCH: amd64
+          CI: true  # Ensures non-interactive mode for Angular
 
-      - name: Upload artifact
+      - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: my-app
-          path: cmd/my-app
+          name: angular-build
+          path: dist/your-angular-app  # Replace with your Angular app's dist folder
 
   docker:
     needs: build
@@ -45,7 +39,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: my-app
+          name: angular-build
 
       - name: Log in to Amazon ECR
         env:
@@ -58,10 +52,10 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
-          docker build -t my-app-image .
+          docker build -t angular-app-image .
           VERSION_TAG="1.0.${{ github.run_id }}-${{ github.ref_name }}"
           DOCKER_IMAGE="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:$VERSION_TAG"
-          docker tag my-app-image:latest $DOCKER_IMAGE
+          docker tag angular-app-image:latest $DOCKER_IMAGE
 
       - name: Push Docker image to ECR
         run: |
