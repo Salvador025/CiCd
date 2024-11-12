@@ -1,5 +1,5 @@
-# Etapa 1: Construcción de la aplicación Angular
-FROM node:20-alpine AS build
+# Etapa única: Construcción y servicio de la aplicación Angular
+FROM node:20-alpine
 
 # Establece el directorio de trabajo
 WORKDIR /app
@@ -16,14 +16,14 @@ COPY . .
 # Compila la aplicación en modo producción
 RUN npm run build --prod
 
-# Etapa 2: Servir la aplicación con Nginx
-FROM nginx:alpine
+# Instala http-server globalmente
+RUN npm install -g http-server
 
-# Copia los archivos compilados desde la etapa de construcción
-COPY --from=build /app/dist/tu-nombre-de-aplicacion /usr/share/nginx/html
+# Establece el directorio de trabajo en el directorio de construcción
+WORKDIR /app/dist/input-output
 
-# Expone el puerto 80
-EXPOSE 80
+# Expone el puerto 8080
+EXPOSE 8080
 
-# Comando por defecto para iniciar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Comando por defecto para iniciar http-server
+CMD ["http-server", "-p", "8080"]
